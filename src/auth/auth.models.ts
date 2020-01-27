@@ -6,6 +6,7 @@ import {
   IsEmail,
   IsOptional,
 } from 'class-validator';
+import { UserEntity } from '@app/entities/user.entity';
 
 export class AuthCredentialsDTO {
   @IsString()
@@ -16,9 +17,13 @@ export class AuthCredentialsDTO {
   @IsString()
   @MinLength(8)
   @MaxLength(20)
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'password too weak',
-  })
+  // @Matches(
+  //   // https://gist.github.com/ravibharathii/3975295
+  //   /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
+  //   {
+  //     message: 'password too weak',
+  //   },
+  // )
   password: string;
 }
 
@@ -29,4 +34,9 @@ export class UpdateUserDTO {
 
   @IsOptional()
   bio: string;
+}
+
+export interface AuthRO {
+  user: Partial<UserEntity>;
+  token: string;
 }

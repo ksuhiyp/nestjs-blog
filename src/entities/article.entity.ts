@@ -1,6 +1,6 @@
 import { Entity, Column, BeforeInsert, ManyToOne } from 'typeorm';
-import { AbstractEntity } from './abstract-entity';
 import * as slug from 'slug';
+import { AbstractEntity } from './abstract-entity';
 import { UserEntity } from './user.entity';
 
 @Entity('articles')

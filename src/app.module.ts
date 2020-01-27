@@ -6,7 +6,24 @@ import { ArticleModule } from './article/article.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), SharedModule, AuthModule, ArticleModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      name: 'default',
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: 'postgres',
+      database: 'nest_blog',
+      synchronize: true,
+      dropSchema: false,
+      logging: true,
+      entities: [`${__dirname}/**/*.entity.{ts,js}`],
+    }),
+    SharedModule,
+    AuthModule,
+    ArticleModule,
+  ],
   controllers: [AppController],
   providers: [],
 })

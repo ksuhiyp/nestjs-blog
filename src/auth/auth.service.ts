@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from '@app/entities/user.entity';
-import { AuthCredentialsDTO } from './auth.models';
+import { AuthCredentialsDTO, AuthRO } from './auth.models';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -21,9 +21,16 @@ export class AuthService {
     return this.userRepo.findOne({ where: { username } });
   }
 
-  async register(credentials: AuthCredentialsDTO) {
+  async register(credentials: AuthCredentialsDTO): Promise<AuthRO> {
     try {
-      await this.userRepo.create(credentials);
+      const user = this.userRepo.create(credentials);
+      await user.save();
+      const payload = { userId: user.id, username: user.username };
+      const token = this.jwtService.sign(payload);
+      return {
+        user: user.toJSON(),
+        token,
+      };
     } catch (err) {
       if (err.code === '23505') {
         throw new ConflictException('Username has already been taken');
@@ -32,14 +39,17 @@ export class AuthService {
     }
   }
 
-  async login(credentials: AuthCredentialsDTO) {
+  async login(credentials: AuthCredentialsDTO): Promise<AuthRO> {
     const user = await this.userRepo.findOne({
       where: { username: credentials.username },
     });
     if (user && user.comparePassword(credentials.password)) {
       const payload = { userId: user.id, username: user.username };
-      const token = await this.jwtService.sign(payload);
-      return { token };
+      const token = this.jwtService.sign(payload);
+      return {
+        user: user.toJSON(),
+        token,
+      };
     }
     throw new UnauthorizedException('Invalid credentials');
   }

@@ -1,6 +1,7 @@
 import { Entity, Column, BeforeInsert, OneToMany } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { IsEmail } from 'class-validator';
+import { Exclude, classToPlain } from 'class-transformer';
 
 import { AbstractEntity } from './abstract-entity';
 import { ArticleEntity } from './article.entity';
@@ -21,6 +22,7 @@ export class UserEntity extends AbstractEntity {
   image: string;
 
   @Column()
+  @Exclude({ toPlainOnly: true })
   password: string;
 
   @OneToMany(
@@ -36,5 +38,9 @@ export class UserEntity extends AbstractEntity {
 
   async comparePassword(attempt: string): Promise<boolean> {
     return await bcrypt.compare(attempt, this.password);
+  }
+
+  toJSON() {
+    return classToPlain(this);
   }
 }
