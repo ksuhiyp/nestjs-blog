@@ -1,24 +1,15 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
 import { ArticleModule } from './article/article.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { DatabaseConnectionService } from './database-connection.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      name: 'default',
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'nest_blog',
-      synchronize: true,
-      dropSchema: false,
-      logging: true,
-      entities: [`${__dirname}/**/*.entity.{ts,js}`],
+    TypeOrmModule.forRootAsync({
+      useClass: DatabaseConnectionService,
     }),
     SharedModule,
     AuthModule,
