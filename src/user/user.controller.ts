@@ -6,21 +6,21 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthCredentialsDTO } from './auth.models';
+import { UserService } from './user.service';
+import { AuthCredentialsDTO } from './user.models';
 
-@Controller('auth')
-export class AuthController {
-  constructor(private authService: AuthService) {}
+@Controller('user')
+export class UserController {
+  constructor(private userService: UserService) {}
 
-  @Post('register')
+  @Post()
   async register(@Body(ValidationPipe) credentials: AuthCredentialsDTO) {
-    return this.authService.register(credentials);
+    return this.userService.register(credentials);
   }
 
   @Post('login')
   @UseInterceptors(ClassSerializerInterceptor)
   async login(@Body(ValidationPipe) credentials: AuthCredentialsDTO) {
-    return this.authService.login(credentials);
+    return this.userService.login(credentials);
   }
 }

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { SharedModule } from './shared/shared.module';
-import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 import { ArticleModule } from './article/article.module';
 import { DatabaseConnectionService } from './database-connection.service';
 
@@ -12,7 +12,7 @@ import { DatabaseConnectionService } from './database-connection.service';
       useClass: DatabaseConnectionService,
     }),
     SharedModule,
-    AuthModule,
+    UserModule,
     ArticleModule,
   ],
   controllers: [AppController],
