@@ -1,4 +1,5 @@
 import { IsString, IsOptional } from 'class-validator';
+import { UserProfileResponse } from './user.models';
 
 export class CreateArticleDTO {
   @IsString()
@@ -24,4 +25,17 @@ export class UpdateArticleDTO {
   @IsOptional()
   @IsString()
   body: string;
+}
+
+export interface ArticleResponse {
+  slug: string;
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+  createdAt: string;
+  updatedAt: string;
+  favorited: boolean;
+  favoritesCount: boolean;
+  author: UserProfileResponse;
 }

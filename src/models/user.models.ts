@@ -5,7 +5,6 @@ import {
   IsEmail,
   IsOptional,
 } from 'class-validator';
-import { UserEntity } from '@app/entities/user.entity';
 
 export class AuthCredentialsDTO {
   @IsString()
@@ -28,7 +27,17 @@ export class UpdateUserDTO {
   bio: string;
 }
 
-export interface AuthRO {
-  user: Partial<UserEntity>;
+export interface UserAuthResponse {
+  email: string;
   token: string;
+  username: string;
+  bio: string;
+  image: string | null;
+}
+
+export interface UserProfileResponse {
+  username: string;
+  bio: string;
+  image: string | null;
+  following: boolean;
 }

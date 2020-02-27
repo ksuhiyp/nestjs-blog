@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ArticleEntity } from '@app/entities/article.entity';
-import { CreateArticleDTO, UpdateArticleDTO } from './article.models';
+import { CreateArticleDTO, UpdateArticleDTO } from '@app/models/article.models';
 import { UserEntity } from '@app/entities/user.entity';
 
 @Injectable()

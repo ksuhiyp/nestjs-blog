@@ -13,9 +13,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { User } from '@app/user/user.decorator';
 import { UserEntity } from '@app/entities/user.entity';
 import { ArticleService } from './article.service';
-import { CreateArticleDTO, UpdateArticleDTO } from './article.models';
+import { CreateArticleDTO, UpdateArticleDTO } from '@app/models/article.models';
 
-@Controller('article')
+@Controller('articles')
 export class ArticleController {
   constructor(private articleService: ArticleService) {}
 
